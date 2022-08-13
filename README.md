@@ -13,3 +13,19 @@ Meaning: a/r means add or remove characters at beginning and end for each new li
 
 Example: glsl -a -b'"' -e'\n"' adds \" to the beginning and \n" to the end for each line.
 -BE11 is the default, which also adds the characters at the beginning and ending of the file. It outputs the file to glsl.output
+
+Example: example_file
+
+    This file will
+    have quotes and newline (\n)
+    between each line
+
+Using the command `example_file -a -b'"' -e'\n"'`
+
+adds " and \n" to the file example_file.output as
+
+    "This file will\n"
+    "have quotes and newline (\n)\n"
+    "between each line\n"
+
+Note: `-BE11` is the default for the command above.
