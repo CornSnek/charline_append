@@ -198,11 +198,11 @@ int main(int argc,char** argv){
         replace_str(&file_str,joined_chars,"\n");
         if(modify_at_begin){
             _Bool rem_b_success=remove_begin_if(&file_str,begin_str);
-            if(!rem_b_success) printf("Unable to find %s at beginning of file.",begin_str);
+            if(!rem_b_success) printf("Unable to find %s at beginning of file.\n",begin_str);
         }
         if(modify_at_end){
             _Bool rem_e_success=remove_end_if(&file_str,end_str);
-            if(!rem_e_success) printf("Unable to find %s at end of file.",end_str);
+            if(!rem_e_success) printf("Unable to find %s at end of file.\n",end_str);
         }
     }
     if(!write_file(file_name_output_str,file_str)){
