@@ -13,7 +13,7 @@ if(!token_name){\
 _Pragma("GCC diagnostic push")
 _Pragma("GCC diagnostic ignored \"-Wstringop-truncation\"")
 void replace_str(char** strptr, const char* replace, const char* with){
-    char* new_strptr=malloc(sizeof(char));
+    char* new_strptr=(char*)(malloc(sizeof(char)));
     EXIT_IF_NULL(new_strptr,char*);
     size_t strptr_i=0;
     size_t new_strptr_i=0;
@@ -29,13 +29,13 @@ void replace_str(char** strptr, const char* replace, const char* with){
         strncpy(new_strptr+new_strptr_i,*strptr+strptr_i,non_match_len);
         new_strptr_i+=non_match_len;
         strptr_i+=non_match_len;
-        if(strncmp(*strptr+strptr_i,replace,replace_len)){//Only replace if contents match (!=0)
-            new_strptr=realloc(new_strptr,(sizeof(char)*new_strptr_i));//To stop strchr from looping, add first character.
+        if(strncmp(*strptr+strptr_i,replace,replace_len)){//First letter may not match the same word (!=0)
+            new_strptr=realloc(new_strptr,(sizeof(char)*new_strptr_i+1));//To stop strchr from looping, add first character.
             EXIT_IF_NULL(new_strptr,char*);
             new_strptr[new_strptr_i++]=(*strptr)[strptr_i++];
             continue; 
         }
-        new_strptr=realloc(new_strptr,sizeof(char)*(new_strptr_i+with_len));//Replace.
+        new_strptr=realloc(new_strptr,sizeof(char)*(new_strptr_i+with_len));
         EXIT_IF_NULL(new_strptr,char*);
         strncpy(new_strptr+new_strptr_i,with,with_len);
         new_strptr_i+=with_len;//Increment string index by appropriate lengths.
@@ -44,7 +44,7 @@ void replace_str(char** strptr, const char* replace, const char* with){
     const size_t last_chars_len=strchr(*strptr+strptr_i,'\0')-*strptr-strptr_i;
     new_strptr=realloc(new_strptr,sizeof(char)*(new_strptr_i+last_chars_len+1));
     EXIT_IF_NULL(new_strptr,char*);
-    strcpy(new_strptr+new_strptr_i,*strptr+strptr_i);
+    strcpy(new_strptr+new_strptr_i,*strptr+strptr_i);//Null-terminate with strcpy.
     free(*strptr);
     *strptr=new_strptr;//Change freed pointer to new pointer.
 }
